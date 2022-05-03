@@ -1,0 +1,16 @@
+/* FONTES GERAIS USADAS */
+/* 
+font-family: 'Raleway', sans-serif;
+font-family: 'Saira Stencil One', cursive;
+ */
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Raleway', sans-serif;
+  font-size: 20px;
+  background-color: #8c11be;
+  color: #000000;
+}
