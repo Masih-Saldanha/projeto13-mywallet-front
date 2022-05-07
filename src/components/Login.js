@@ -8,16 +8,16 @@ export default function Login() {
     const { token, setToken } = useContext(TokenContext);
 
     const navigate = useNavigate();
-    const [dadosLogin, setDadosLogin] = useState({ email: "", password: "" });
+    const [loginData, setLoginData] = useState({ email: "", password: "" });
 
-    function fazerLogin(e) {
+    function loginAccount(e) {
         e.preventDefault()
-        const promise = axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/login", dadosLogin);
+        const promise = axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/login", loginData);
         promise.then(response => {
             const { data } = response;
-            const { token, name } = data; // NO BACK-END MANDAR NANE TBM
-            localStorage.setItem("email", dadosLogin.email);
-            localStorage.setItem("password", dadosLogin.password);
+            const { token, name } = data; // NO BACK-END MANDAR NAME TBM
+            localStorage.setItem("email", loginData.email);
+            localStorage.setItem("password", loginData.password);
             navigate("/userhome/");
             setToken(token);
         });
@@ -26,13 +26,13 @@ export default function Login() {
             const { data } = response
             const { message } = data;
             alert(message);
-            setDadosLogin({ email: "", password: "" });
+            setLoginData({ email: "", password: "" });
         });
     }
 
     if (token !== "") {
         return (
-            <FrenteLogado>Você está logado! :)</FrenteLogado>
+            <LoggedFront>Você está logado! :)</LoggedFront>
         )
     } else if (localStorage.email !== undefined && localStorage.password !== undefined && token === "") {
         const promise = axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/login", { email: localStorage.getItem("email"), password: localStorage.getItem("password") });
@@ -48,23 +48,23 @@ export default function Login() {
             const { data } = response
             const { message } = data;
             alert(message);
-            setDadosLogin({ email: "", password: "" });
+            setLoginData({ email: "", password: "" });
             setCarregandoLogin(false);
         });
         return (
-            <LoginAutomatico>
+            <AutoLogin>
                 <h1>Logando automaticamente!</h1>
-            </LoginAutomatico>
+            </AutoLogin>
         )
     } else {
         return (
-            <FrenteLogin>
+            <LoginScreen>
                 <h1>MyWallet</h1>
-                <form onSubmit={fazerLogin}>
+                <form onSubmit={loginAccount}>
                     <input
                         type="email"
-                        value={dadosLogin.email}
-                        onChange={(e) => setDadosLogin({ ...dadosLogin, email: e.target.value })}
+                        value={loginData.email}
+                        onChange={(e) => setLoginData({ ...loginData, email: e.target.value })}
                         nome="email"
                         id="email"
                         placeholder="E-mail"
@@ -72,8 +72,8 @@ export default function Login() {
                     />
                     <input
                         type="password"
-                        value={dadosLogin.password}
-                        onChange={(e) => setDadosLogin({ ...dadosLogin, password: e.target.value })}
+                        value={loginData.password}
+                        onChange={(e) => setLoginData({ ...loginData, password: e.target.value })}
                         nome="senha"
                         id="senha"
                         placeholder="Senha"
@@ -84,12 +84,12 @@ export default function Login() {
                 <Link to="/signup">
                     <h2>Primeira vez? Cadastre-se!</h2>
                 </Link>
-            </FrenteLogin>
+            </LoginScreen>
         )
     }
 }
 
-const FrenteLogado = styled.figure`
+const LoggedFront = styled.figure`
 position: fixed;
 top: calc(50vh - 20px);
 left: calc(50vw - 105.25px);
@@ -101,7 +101,7 @@ font-size: 20px;
 color: #FFFFFF;
 `
 
-const LoginAutomatico = styled.main`
+const AutoLogin = styled.main`
 position: fixed;
 top: calc(50vh - 60px);
 left: calc(50vw - 145.10px);
@@ -116,7 +116,7 @@ font-size: 20px;
 color: #52B6FF;
 `
 
-const FrenteLogin = styled.section`
+const LoginScreen = styled.section`
 display: flex;
 flex-direction: column;
 align-items: center;

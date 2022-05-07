@@ -6,7 +6,8 @@ import TokenContext from "../contexts/TokenContext";
 import Login from "./Login";
 import SignUp from "./SignUp";
 import UserHome from "./UserHome";
-import NewTrade from "./NewTrade";
+import NewIncome from "./NewIncome";
+import NewOutcome from "./NewOutcome";
 
 export default function App() {
     const [token, setToken] = useState("");
@@ -22,7 +23,8 @@ export default function App() {
                     <Route path="/" element={<Login />} />
                     <Route path="/signup/" element={<SignUp />} />
                     <Route path="/userhome/" element={<UserHome />} />
-                    <Route path="/newtrade/" element={<NewTrade />} />
+                    <Route path="/newincome/" element={<NewIncome />} />
+                    <Route path="/newoutcome/" element={<NewOutcome />} />
                 </Routes>
             </BrowserRouter>
             </TokenContext.Provider>

@@ -5,11 +5,11 @@ import styled from "styled-components";
 
 export default function SignUp() {
     const navigate = useNavigate();
-    const [dadosContaNova, setDadosContaNova] = useState({ name: "", email: "", password: "", confirmPassword: "" });
+    const [newAccountData, setNewAccountData] = useState({ name: "", email: "", password: "", confirmPassword: "" });
 
-    function cadastrarConta(e) {
+    function createAccount(e) {
         e.preventDefault()
-        const promise = axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/sign-up", dadosContaNova);
+        const promise = axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/sign-up", newAccountData);
         promise.then(response => {
             navigate("/");
         });
@@ -18,18 +18,18 @@ export default function SignUp() {
             const { data } = response
             const { message } = data;
             alert(message);
-            setDadosContaNova({ name: "", email: "", password: "", confirmPassword: "" });
+            setNewAccountData({ name: "", email: "", password: "", confirmPassword: "" });
         });
     }
 
     return (
-        <FrenteCadastro>
+        <SignupScreen>
             <h1>MyWallet</h1>
-            <form onSubmit={cadastrarConta}>
+            <form onSubmit={createAccount}>
                 <input
                     type="text"
-                    value={dadosContaNova.name}
-                    onChange={(e) => setDadosContaNova({ ...dadosContaNova, name: e.target.value })}
+                    value={newAccountData.name}
+                    onChange={(e) => setNewAccountData({ ...newAccountData, name: e.target.value })}
                     nome="nome"
                     id="nome"
                     placeholder="Nome"
@@ -37,8 +37,8 @@ export default function SignUp() {
                 />
                 <input
                     type="email"
-                    value={dadosContaNova.email}
-                    onChange={(e) => setDadosContaNova({ ...dadosContaNova, email: e.target.value })}
+                    value={newAccountData.email}
+                    onChange={(e) => setNewAccountData({ ...newAccountData, email: e.target.value })}
                     nome="email"
                     id="email"
                     placeholder="E-mail"
@@ -46,8 +46,8 @@ export default function SignUp() {
                 />
                 <input
                     type="password"
-                    value={dadosContaNova.password}
-                    onChange={(e) => setDadosContaNova({ ...dadosContaNova, password: e.target.value })}
+                    value={newAccountData.password}
+                    onChange={(e) => setNewAccountData({ ...newAccountData, password: e.target.value })}
                     nome="senha"
                     id="senha"
                     placeholder="Senha"
@@ -55,8 +55,8 @@ export default function SignUp() {
                 />
                 <input
                     type="password"
-                    value={dadosContaNova.confirmPassword}
-                    onChange={(e) => setDadosContaNova({ ...dadosContaNova, confirmPassword: e.target.value })}
+                    value={newAccountData.confirmPassword}
+                    onChange={(e) => setNewAccountData({ ...newAccountData, confirmPassword: e.target.value })}
                     nome="confirmPassword"
                     id="confirmPassword"
                     placeholder="Confirme a senha"
@@ -67,11 +67,11 @@ export default function SignUp() {
             <Link to="/">
                 <h2>Já tem uma conta? Entre agora!</h2>
             </Link>
-        </FrenteCadastro>
+        </SignupScreen>
     )
 }
 
-const FrenteCadastro = styled.section`
+const SignupScreen = styled.section`
 display: flex;
 flex-direction: column;
 align-items: center;
