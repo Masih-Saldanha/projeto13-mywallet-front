@@ -29,8 +29,7 @@ export default function App() {
         promise.catch((err) => {
             const { response } = err;
             const { data } = response;
-            const { message } = data;
-            alert("Não foi possível recuperar os dados das suas transações.");
+            alert(data);
         })
     }
 

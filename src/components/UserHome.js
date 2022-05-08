@@ -1,5 +1,6 @@
-import { Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useContext } from "react";
+import axios from "axios";
 import dayjs from "dayjs";
 import styled from "styled-components";
 
@@ -9,17 +10,35 @@ import addButton from "./../assets/addButton.svg";
 import removeButton from "./../assets/removeButton.svg";
 
 export default function UserHome() {
-    const { name, historic, getHistoric } = useContext(TokenContext);
-
+    const { token, name, historic, getHistoric } = useContext(TokenContext);
     const sumall = historic.map(transaction => parseFloat(transaction.value)).reduce((prev, curr) => prev + curr, 0);
+
+    const navigate = useNavigate();
+
+    function signOut() {
+        const url = "http://localhost:5000/signout";
+        const config = {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        };
+        const promise = axios.delete(url, config);
+        promise.then((response) => {
+            const { data } = response;
+            navigate("/");
+        })
+        promise.catch((err) => {
+            const { response } = err;
+            const { data } = response;
+            alert(data);
+        })
+    }
 
     return (
         <Screen onLoad={getHistoric} >
             <header>
                 <h1>Olá, {name}</h1>
-                <Link to="/" >
-                    <img src={backButton} alt="backButton" />
-                </Link>
+                <img src={backButton} alt="backButton" onClick={signOut} />
             </header>
             {historic.length > 0 ?
                 <article>
