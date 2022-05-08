@@ -16,7 +16,7 @@ export default function UserHome() {
     const navigate = useNavigate();
 
     function signOut() {
-        const url = "http://localhost:5000/signout";
+        const url = "https://masih-my-wallet.herokuapp.com/signout";
         const config = {
             headers: {
                 Authorization: `Bearer ${token}`

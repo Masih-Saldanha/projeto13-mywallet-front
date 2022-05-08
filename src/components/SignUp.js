@@ -9,7 +9,7 @@ export default function SignUp() {
 
     function createAccount(e) {
         e.preventDefault()
-        const promise = axios.post("http://localhost:5000/signup", newAccountData);
+        const promise = axios.post("https://masih-my-wallet.herokuapp.com/signup", newAccountData);
         promise.then(response => {
             navigate("/");
         });

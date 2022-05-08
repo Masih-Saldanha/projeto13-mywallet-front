@@ -15,7 +15,7 @@ export default function App() {
     const [historic, setHistoric] = useState([]);
 
     function getHistoric() {
-        const url = "http://localhost:5000/historic";
+        const url = "https://masih-my-wallet.herokuapp.com/historic";
         const config = {
             headers: {
                 Authorization: `Bearer ${token}`

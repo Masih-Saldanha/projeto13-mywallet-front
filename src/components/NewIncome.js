@@ -13,7 +13,7 @@ export default function NewIncome() {
 
     function sendIncome(e) {
         e.preventDefault();
-        const url = "http://localhost:5000/transaction";
+        const url = "https://masih-my-wallet.herokuapp.com/transaction";
         const config = {
             headers: {
                 Authorization: `Bearer ${token}`
