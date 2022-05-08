@@ -2,7 +2,8 @@ import { useNavigate } from "react-router-dom";
 import { useState, useContext } from "react";
 import axios from "axios";
 import styled from "styled-components";
-import TokenContext from "../contexts/TokenContext";
+
+import TokenContext from "./../contexts/TokenContext";
 
 export default function NewIncome() {
     const [income, setIncome] = useState({ date: 0, value: "", description: "" });
@@ -26,8 +27,7 @@ export default function NewIncome() {
         promise.catch(err => {
             const { response } = err;
             const { data } = response
-            const { message } = data;
-            alert("Não foi possível enviar os dados.");
+            alert(data);
             setIncome({ ...income, value: "", description: "" });
         });
     }
@@ -70,7 +70,7 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: calc(100% - 25px);
+    width: calc(100% - 50px);
     margin-bottom: 40px;
     h1 {
         font-weight: 700;
@@ -79,7 +79,7 @@ header {
     }
 }
 form {
-    width: calc(100% - 25px);
+    width: calc(100% - 50px);
     display: flex;
     flex-direction: column;
     align-items: center;

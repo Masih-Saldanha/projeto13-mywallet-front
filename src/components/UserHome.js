@@ -1,28 +1,24 @@
 import { Link } from "react-router-dom";
 import { useContext } from "react";
 import dayjs from "dayjs";
-import TokenContext from "../contexts/TokenContext";
 import styled from "styled-components";
-import backButton from "../assets/backButton.svg";
-import addButton from "../assets/addButton.svg";
-import removeButton from "../assets/removeButton.svg";
+
+import TokenContext from "./../contexts/TokenContext";
+import backButton from "./../assets/backButton.svg";
+import addButton from "./../assets/addButton.svg";
+import removeButton from "./../assets/removeButton.svg";
 
 export default function UserHome() {
     const { name, historic, getHistoric } = useContext(TokenContext);
 
     const sumall = historic.map(transaction => parseFloat(transaction.value)).reduce((prev, curr) => prev + curr, 0);
-    console.log(sumall);
 
     return (
         <Screen onLoad={getHistoric} >
             <header>
                 <h1>Olá, {name}</h1>
                 <Link to="/" >
-                    <img
-                        src={backButton}
-                        alt="backButton"
-                    // onClick={() => navigate("/")}  //FIX ME = IMPLEMENTAR LOGOUT
-                    />
+                    <img src={backButton} alt="backButton" />
                 </Link>
             </header>
             {historic.length > 0 ?
@@ -107,11 +103,11 @@ article {
     background-color: #FFFFFF;
     display: flex;
     flex-direction: column;
-    height: 446px;
+    height: calc(100vh - 230px);
     border-radius: 5px;
     overflow-y: scroll;
     position: relative;
-    padding: 10px;
+    padding: 23px 12px 10px 12px;
     menu {
         display: flex;
         justify-content: space-between;
@@ -128,21 +124,21 @@ article {
             }
         }
         h3 {
+            margin-left: 15px;
             font-size: 16px;
             color: #03AC00;
         }
         p {
+            margin-left: 15px;
             font-size: 16px;
             color: #C70000;
         }
     }
     div {
-        /* width: calc(100% - 20px); */
-        /* position: absolute; */
         top: calc(100% - 17px);
-        bottom: 0px;
+        bottom: 0;
         position: sticky;
-        /* background: blue; */
+        background-color: white;
         h5 {
             font-weight: 700;
             font-size: 17px;

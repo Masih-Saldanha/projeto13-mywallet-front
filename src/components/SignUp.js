@@ -16,8 +16,7 @@ export default function SignUp() {
         promise.catch(err => {
             const { response } = err;
             const { data } = response
-            const { message } = data;
-            alert("Preencha os campos corretamente!");
+            alert(data);
             setNewAccountData({ name: "", email: "", password: "", confirmPassword: "" });
         });
     }
