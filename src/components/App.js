@@ -11,11 +11,39 @@ import NewOutcome from "./NewOutcome";
 
 export default function App() {
     const [token, setToken] = useState("");
+    const [name, setName] = useState("");
+    const [historic, setHistoric] = useState([]);
+
+    function getHistoric() {
+        const url = "http://localhost:5000/historic";
+        const config = {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        };
+        const promise = axios.get(url, config);
+        promise.then((response) => {
+            const { data } = response;
+            setHistoric(data);
+        })
+        promise.catch((err) => {
+            const { response } = err;
+            const { data } = response;
+            const { message } = data;
+            alert("Não foi possível recuperar os dados das suas transações.");
+        })
+    }
+
     return (
         <TokenContext.Provider
             value={{
                 token,
-                setToken
+                setToken,
+                name,
+                setName,
+                historic,
+                setHistoric,
+                getHistoric
             }}
         >
             <BrowserRouter>
@@ -27,6 +55,6 @@ export default function App() {
                     <Route path="/newoutcome/" element={<NewOutcome />} />
                 </Routes>
             </BrowserRouter>
-            </TokenContext.Provider>
-            )
+        </TokenContext.Provider>
+    )
 }

@@ -9,7 +9,7 @@ export default function SignUp() {
 
     function createAccount(e) {
         e.preventDefault()
-        const promise = axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/sign-up", newAccountData);
+        const promise = axios.post("http://localhost:5000/signup", newAccountData);
         promise.then(response => {
             navigate("/");
         });
@@ -17,7 +17,7 @@ export default function SignUp() {
             const { response } = err;
             const { data } = response
             const { message } = data;
-            alert(message);
+            alert("Preencha os campos corretamente!");
             setNewAccountData({ name: "", email: "", password: "", confirmPassword: "" });
         });
     }

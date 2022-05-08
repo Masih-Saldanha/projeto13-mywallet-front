@@ -1,29 +1,34 @@
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useState, useContext } from "react";
 import axios from "axios";
 import styled from "styled-components";
-// import TokenContext from "../contexts/TokenContext";
+import TokenContext from "../contexts/TokenContext";
 
 export default function NewOutcome() {
-    // const { token, setToken } = useContext(TokenContext);
+    const [outcome, setOutcome] = useState({ date: 0, value: "", description: "" });
+    const { token, getHistoric } = useContext(TokenContext);
 
     const navigate = useNavigate();
-    const [outcome, setOutcome] = useState({ value: "", description: "" });
 
     function sendOutcome(e) {
-        e.preventDefault()
-        const promise = axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/login", outcome);
+        e.preventDefault();
+        const url = "http://localhost:5000/transaction";
+        const config = {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        };
+        const promise = axios.post(url, outcome, config);
         promise.then(response => {
-            // const { data } = response;
-            // const { token, name } = data; // NO BACK-END MANDAR NANE TBM
+            getHistoric();
             navigate("/userhome/");
         });
         promise.catch(err => {
             const { response } = err;
             const { data } = response
             const { message } = data;
-            alert(message);
-            setOutcome({ value: "", description: "" });
+            alert("Não foi possível enviar os dados.");
+            setOutcome({...outcome, value: "", description: "" });
         });
     }
     return (
@@ -50,7 +55,7 @@ export default function NewOutcome() {
                     placeholder="Descrição"
                     required
                 />
-                <button type="submit">Salvar saída</button>
+                <button type="submit" onClick={() => setOutcome({ ...outcome, value: (outcome.value * -1), date: Date.now() })}>Salvar saída</button>
             </form>
         </NewOutcomeFront>
     )

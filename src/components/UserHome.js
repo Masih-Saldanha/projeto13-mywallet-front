@@ -1,44 +1,64 @@
-import { useNavigate, Link } from "react-router-dom";
-import { useState } from "react";
+import { Link } from "react-router-dom";
+import { useContext } from "react";
+import dayjs from "dayjs";
+import TokenContext from "../contexts/TokenContext";
 import styled from "styled-components";
 import backButton from "../assets/backButton.svg";
 import addButton from "../assets/addButton.svg";
 import removeButton from "../assets/removeButton.svg";
 
 export default function UserHome() {
-    const [thereIsData] = useState([1]);
+    const { name, historic, getHistoric } = useContext(TokenContext);
+
+    const sumall = historic.map(transaction => parseFloat(transaction.value)).reduce((prev, curr) => prev + curr, 0);
+    console.log(sumall);
+
     return (
-        <Screen>
+        <Screen onLoad={getHistoric} >
             <header>
-                <h1>Olá, Fulano</h1>
-                <img
-                    src={backButton}
-                    alt="backButton"
-                // onClick={ }  //FIX ME = IMPLEMENTAR LOGOUT
-                />
+                <h1>Olá, {name}</h1>
+                <Link to="/" >
+                    <img
+                        src={backButton}
+                        alt="backButton"
+                    // onClick={() => navigate("/")}  //FIX ME = IMPLEMENTAR LOGOUT
+                    />
+                </Link>
             </header>
-            {thereIsData.length > 0 ?
+            {historic.length > 0 ?
                 <article>
-                    {/* EXEMPLO DE SAÍDA */}
-                    <menu>
-                        <section>
-                            <h1>30/11</h1>
-                            <h2>Almoço Mãe</h2>
-                        </section>
-                        <p>39,90</p>
-                    </menu>
-                    {/* EXEMPLO DE ENTRADA */}
-                    <menu>
-                        <section>
-                            <h1>20/11</h1>
-                            <h2>Empréstimo Maria</h2>
-                        </section>
-                        <h3>500,00</h3>
-                    </menu>
-                    {/* EXEMPLO DE SALDO */}
+                    {historic.map((transaction, index) => {
+                        if (transaction.value < 0) {
+                            const { date, description, value } = transaction;
+                            return (
+                                <menu key={index} >
+                                    <section>
+                                        <h1>{dayjs(date).format("DD/MM")}</h1>
+                                        <h2>{description}</h2>
+                                    </section>
+                                    <p>{parseFloat(value * -1).toFixed(2).replace(".", ",")}</p>
+                                </menu>
+                            )
+                        } else {
+                            const { date, description, value } = transaction;
+                            return (
+                                <menu key={index} >
+                                    <section>
+                                        <h1>{dayjs(date).format("DD/MM")}</h1>
+                                        <h2>{description}</h2>
+                                    </section>
+                                    <h3>{parseFloat(value).toFixed(2).replace(".", ",")}</h3>
+                                </menu>
+                            )
+                        }
+                    })}
                     <div>
                         <h5>SALDO</h5>
-                        <p>2849,96</p>
+                        {sumall < 0 ?
+                            <p>{parseFloat(sumall * -1).toFixed(2).replace(".", ",")}</p>
+                            :
+                            <h3>{parseFloat(sumall).toFixed(2).replace(".", ",")}</h3>
+                        }
                     </div>
                 </article>
                 :

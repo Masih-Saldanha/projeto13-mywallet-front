@@ -5,58 +5,58 @@ import styled from "styled-components";
 import TokenContext from "../contexts/TokenContext";
 
 export default function Login() {
-    const { token, setToken } = useContext(TokenContext);
+    const { setToken, setName } = useContext(TokenContext);
 
     const navigate = useNavigate();
     const [loginData, setLoginData] = useState({ email: "", password: "" });
 
     function loginAccount(e) {
         e.preventDefault()
-        const promise = axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/login", loginData);
+        const promise = axios.post("http://localhost:5000/signin", loginData);
         promise.then(response => {
             const { data } = response;
-            const { token, name } = data; // NO BACK-END MANDAR NAME TBM
+            const { name, token } = data;
             localStorage.setItem("email", loginData.email);
             localStorage.setItem("password", loginData.password);
             navigate("/userhome/");
             setToken(token);
+            setName(name);
         });
         promise.catch(err => {
             const { response } = err;
             const { data } = response
             const { message } = data;
-            alert(message);
+            alert("Usuário ou senha incorretos");
             setLoginData({ email: "", password: "" });
         });
     }
 
-    if (token !== "") {
-        return (
-            <LoggedFront>Você está logado! :)</LoggedFront>
-        )
-    } else if (localStorage.email !== undefined && localStorage.password !== undefined && token === "") {
-        const promise = axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/login", { email: localStorage.getItem("email"), password: localStorage.getItem("password") });
-        promise.then(response => {
-            const { data } = response;
-            const { token, image } = data;
-            navigate("/hoje/");
-            setToken(token);
-            setImagemPerfil(image);
-        });
-        promise.catch(err => {
-            const { response } = err;
-            const { data } = response
-            const { message } = data;
-            alert(message);
-            setLoginData({ email: "", password: "" });
-            setCarregandoLogin(false);
-        });
-        return (
-            <AutoLogin>
-                <h1>Logando automaticamente!</h1>
-            </AutoLogin>
-        )
-    } else {
+    // if (token !== "") {
+    //     return (
+    //         <LoggedFront>Você está logado! :)</LoggedFront>
+    //     )
+    // } else if (localStorage.email !== undefined && localStorage.password !== undefined && token === "") {
+    //     const promise = axios.post("http://localhost:5000/signin", { email: localStorage.getItem("email"), password: localStorage.getItem("password") });
+    //     promise.then(response => {
+    //         const { data } = response;
+    //         const { name, token } = data; // NO BACK-END MANDAR NAME TBM
+    //         // console.log(data);
+    //         navigate("/userhome/");
+    //         setToken(token);
+    //         setName(name);
+    //     });
+    //     promise.catch(err => {
+    //         const { response } = err;
+    //         const { data } = response
+    //         const { message } = data;
+    //         alert("Deu ruim");
+    //     });
+    //     return (
+    //         <AutoLogin>
+    //             <h1>Logando automaticamente!</h1>
+    //         </AutoLogin>
+    //     )
+    // } else {
         return (
             <LoginScreen>
                 <h1>MyWallet</h1>
@@ -86,7 +86,7 @@ export default function Login() {
                 </Link>
             </LoginScreen>
         )
-    }
+    // }
 }
 
 const LoggedFront = styled.figure`
